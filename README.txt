@@ -1,33 +1,47 @@
-# Willans' Formula with Optimized Prime Detector
 
-## Project Overview
-This repository contains a solution for **Programming Assignment 1 (Cryptography)**. The goal was to implement a mathematical formula that acts as a "Prime Computer" (generating the $n^{th}$ prime) by transforming a "Prime Detector" (a function that checks primality).
+### 1. The Core Detector: Wilson's Theorem
 
-While the original **Willans' Formula** relies on **Wilson's Theorem** (which uses factorials and is computationally infeasible), this project implements a modified version using a **Divisor-Counting Detector** (Trial Division).
+Wilson's Theorem provides an elegant way to detect primes using only arithmetic:
 
-## Mathematical Formulation
+$$
+(j-1)! \equiv -1 \pmod j \quad \text{if and only if } j \text{ is a prime number.}
+$$
 
-### 1. The Prime Detector ($F(j)$)
-We define a detector function $F(j)$ such that $F(j)=1$ if $j$ is prime, and $0$ otherwise.
-Using the trial division method:
-$$F(j) = \begin{cases} 1 & \text{if } \forall k \in [2, \sqrt{j}], j \not\equiv 0 \pmod k \\ 0 & \text{otherwise} \end{cases}$$
+The theorem is used to construct a prime detector function $F(j)$ that returns 1 if $j$ is prime, and 0 otherwise.
 
 ### 2. The Prime Counting Function ($\pi(m)$)
-$$\pi(m) = \sum_{j=1}^{m} F(j)$$
 
-### 3. The Prime Computer ($p_n$)
-We use the summation formula to find the $n^{th}$ prime:
-$$p_n = 1 + \sum_{m=1}^{2^n} \left\lfloor \left( \frac{n}{1 + \pi(m)} \right)^{1/n} \right\rfloor$$
+The prime counting function is built by summing the detector:
+$$
+\pi(m) = \sum_{j=1}^{m} F(j)
+$$
 
-## Time Complexity Comparison
+### 3. The Prime Computer: Willans' Formula
 
-| Algorithm | Detector Method | Time Complexity | Feasibility |
-| :--- | :--- | :--- | :--- |
-| **Original Willans'** | Wilson's Theorem ($(j-1)! \equiv -1$) | $O(p_n!)$ (Factorial) | $n < 6$ |
-| **This Implementation** | Divisor Counting (Trial Division) | $O(p_n^{2.5})$ (Polynomial) | $n \approx 500+$ |
+The final formula for the $n^{th}$ prime number $p_n$ is:
+$$
+p_n = 1 + \sum_{m=1}^{2^n} \left\lfloor \left( \frac{n}{1 + \pi(m)} \right)^{1/n} \right\rfloor
+$$
+s
 
-## How to Run
-1. Clone the repository.
-2. Run the script using Python 3:
-   ```bash
-   python prime_computer.py
+### Prerequisites
+- Python 3.x
+- Sufficient patience, as even the 7th prime (17) will take noticeable time.
+
+### Running the Code
+The code must be run with a small value for `n`.
+
+```python
+# Example Code Snippet:
+def factorial(x):
+    # ... implementation here ...
+    
+def wilson_detector(j):
+    # ... implementation of (j-1)! mod j here ...
+
+# ... rest of the pi_function and nth_prime_formula ...
+
+# Only run for very small n (e.g., n=5)
+n = 5 
+# The 5th prime is 11
+print(f"The {n}th prime is: {nth_prime_formula(n)}")
